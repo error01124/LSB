@@ -6,14 +6,14 @@ public class LadderClimbing : MonoBehaviour
     [SerializeField] private AudioSource _sound;
 
     private FirstPersonController _playerMovement;
-    private Rigidbody _rb;
-    private bool _inside;
+    private Rigidbody _rigidbody;
+    private bool _isInside;
     private string _ladderTag = "Ladder";
 
     private void Start()
     {
         _playerMovement = GetComponent<FirstPersonController>();
-        _rb = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         _sound.loop = true;
         _sound.enabled = false;
     }
@@ -24,8 +24,8 @@ public class LadderClimbing : MonoBehaviour
         if (other.gameObject.CompareTag(_ladderTag))
         {
             Debug.Log(other.gameObject.tag);
-            _inside = true;
-            _rb.useGravity = false;
+            _isInside = true;
+            _rigidbody.useGravity = false;
             _playerMovement.isClimbingLadder = true;
             _sound.enabled = true;
         }   
@@ -35,8 +35,8 @@ public class LadderClimbing : MonoBehaviour
     {
         if (other.gameObject.CompareTag(_ladderTag))
         {
-            _inside = false;
-            _rb.useGravity = true;
+            _isInside = false;
+            _rigidbody.useGravity = true;
             _playerMovement.isClimbingLadder = false;
             _sound.enabled = false;
         }      
@@ -46,7 +46,7 @@ public class LadderClimbing : MonoBehaviour
     {
         _playerMovement.velocityY = 0;
 
-        if (_inside)
+        if (_isInside)
         {
             float vertical = Input.GetAxis("Vertical");
             Debug.Log(vertical);
